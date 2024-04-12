@@ -57,11 +57,12 @@ final class ProfileTableViewCell: UITableViewCell {
         self.contentView.addSubview(nameStackView)
         
         NSLayoutConstraint.activate([
-            profileImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
+            profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
         
             nameStackView.centerYAnchor.constraint(equalTo: self.profileImageView.centerYAnchor),
-            nameStackView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 10)
+            nameStackView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 10),
+            nameStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
     }
 }
