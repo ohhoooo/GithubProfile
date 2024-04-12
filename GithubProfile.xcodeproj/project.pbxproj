@@ -22,6 +22,7 @@
 		37F8FA942BC92B8300675DEC /* RepositoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 37F8FA922BC92B8300675DEC /* RepositoryTableViewCell.xib */; };
 		37F8FA962BC93D0A00675DEC /* ProfileDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8FA952BC93D0A00675DEC /* ProfileDTO.swift */; };
 		37F8FA982BC941A400675DEC /* RepositoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8FA972BC941A400675DEC /* RepositoryDTO.swift */; };
+		37F8FA9A2BC9492F00675DEC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F8FA992BC9492F00675DEC /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		37F8FA922BC92B8300675DEC /* RepositoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RepositoryTableViewCell.xib; sourceTree = "<group>"; };
 		37F8FA952BC93D0A00675DEC /* ProfileDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDTO.swift; sourceTree = "<group>"; };
 		37F8FA972BC941A400675DEC /* RepositoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDTO.swift; sourceTree = "<group>"; };
+		37F8FA992BC9492F00675DEC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			children = (
 				37F8FA952BC93D0A00675DEC /* ProfileDTO.swift */,
 				37F8FA972BC941A400675DEC /* RepositoryDTO.swift */,
+				37F8FA992BC9492F00675DEC /* NetworkManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				37F8FA6C2BC90E4400675DEC /* ViewController.swift in Sources */,
 				37F8FA962BC93D0A00675DEC /* ProfileDTO.swift in Sources */,
 				37F8FA902BC9123700675DEC /* ProfileTableViewCell.swift in Sources */,
+				37F8FA9A2BC9492F00675DEC /* NetworkManager.swift in Sources */,
 				37F8FA682BC90E4400675DEC /* AppDelegate.swift in Sources */,
 				37F8FA932BC92B8300675DEC /* RepositoryTableViewCell.swift in Sources */,
 				37F8FA6A2BC90E4400675DEC /* SceneDelegate.swift in Sources */,
