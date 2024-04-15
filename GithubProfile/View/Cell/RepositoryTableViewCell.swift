@@ -24,4 +24,11 @@ class RepositoryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func bind(repository: RepositoryDTO?) {
+        if let repository {
+            self.nameLabel.text = repository.name
+            self.languageLabel.text = repository.language
+        }
+    }
 }

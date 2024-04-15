@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileTableViewCell: UITableViewCell {
     
@@ -18,7 +19,7 @@ final class ProfileTableViewCell: UITableViewCell {
     
     let name: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = .black
         label.numberOfLines = 1
         return label
@@ -26,7 +27,7 @@ final class ProfileTableViewCell: UITableViewCell {
     
     let nickname: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .darkGray
         label.numberOfLines = 1
         return label
@@ -56,13 +57,30 @@ final class ProfileTableViewCell: UITableViewCell {
         self.contentView.addSubview(profileImageView)
         self.contentView.addSubview(nameStackView)
         
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        nameStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            profileImageView.widthAnchor.constraint(equalToConstant: 80),
+            profileImageView.heightAnchor.constraint(equalToConstant: 80),
         
             nameStackView.centerYAnchor.constraint(equalTo: self.profileImageView.centerYAnchor),
-            nameStackView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 10),
-            nameStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+            nameStackView.leadingAnchor.constraint(equalTo: self.profileImageView.trailingAnchor, constant: 20)
         ])
+    }
+    
+    func bind(profile: ProfileDTO?) {
+        if let profile {
+            if let imageUrl = URL(string: profile.avatarUrl) {
+                self.profileImageView.kf.setImage(with: imageUrl)
+                self.profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
+                self.profileImageView.clipsToBounds = true
+            }
+            
+            self.name.text = profile.name
+            self.nickname.text = profile.nickname
+        }
     }
 }

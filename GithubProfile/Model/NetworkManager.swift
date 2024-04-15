@@ -45,7 +45,7 @@ final class NetworkManager {
     
     // (2) Alamofire
     func fetchUserRepository(userName: String, page: Int, completion: @escaping ((Result<[RepositoryDTO], Error>) -> Void)) {
-        guard let url = URL(string: "\(self.url)\(userName)?page=\(page)") else {
+        guard let url = URL(string: "\(self.url)\(userName)/repos?page=\(page)") else {
             completion(.failure(NSError(domain: "URL 변환에 실패했어요.", code: 401)))
             return
         }
