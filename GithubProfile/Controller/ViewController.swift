@@ -15,8 +15,10 @@ class ViewController: UIViewController {
     private let networkManager = NetworkManager()
     
     private var profile: ProfileDTO?
-    private var repository = [RepositoryDTO]()
+    private var repositories = [RepositoryDTO]()
+    
     private var name = "ohhoooo"
+    private var isLoadingLast = false
     private var page = 1
 
     // MARK: - life cycles
@@ -32,32 +34,32 @@ class ViewController: UIViewController {
     private func setDatas() {
         fetchProfile()
         fetchRepository()
-        
-        func fetchProfile() {
-            networkManager.fetchUserProfile(userName: name) { [weak self] result in
-                switch result {
-                case .success(let profile):
-                    self?.profile = profile
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadData()
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
+    }
+    
+    func fetchProfile() {
+        networkManager.fetchUserProfile(userName: name) { [weak self] result in
+            switch result {
+            case .success(let profile):
+                self?.profile = profile
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
-        
-        func fetchRepository() {
-            networkManager.fetchUserRepository(userName: name, page: page) { [weak self] result in
-                switch result {
-                case .success(let repository):
-                    self?.repository = repository
-                    DispatchQueue.main.async {
-                        self?.tableView.reloadData()
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
+    }
+    
+    func fetchRepository() {
+        networkManager.fetchUserRepositories(userName: name, page: page) { [weak self] result in
+            switch result {
+            case .success(let repositories):
+                self?.repositories += repositories
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
@@ -82,11 +84,42 @@ class ViewController: UIViewController {
             self?.tableView.refreshControl?.endRefreshing()
         }
     }
+    
+    private func loadMoreRepositories() {
+        if isLoadingLast == true {
+            return
+        }
+        
+        page += 1
+        
+        // 프로젝트의 개수가 부족하여 다른 것으로 대체
+        networkManager.fetchUserRepositories(userName: "al45tair", page: page) { [weak self] result in
+            switch result {
+            case .success(let repositories):
+                if repositories.isEmpty == true {
+                    self?.isLoadingLast = true
+                    return
+                }
+                self?.repositories += repositories
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return (indexPath.section == 0) ? 140 : 90
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.row == repositories.count - 1 {
+            loadMoreRepositories()
+        }
     }
 }
 
@@ -96,7 +129,7 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (section == 0) ? 1 : repository.count
+        return (section == 0) ? 1 : repositories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,7 +142,7 @@ extension ViewController: UITableViewDataSource {
         } else if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "RepositoryTableViewCell", for: indexPath) as? RepositoryTableViewCell else { return UITableViewCell() }
             
-            cell.bind(repository: repository[indexPath.row])
+            cell.bind(repository: repositories[indexPath.row])
             
             return cell
         }
