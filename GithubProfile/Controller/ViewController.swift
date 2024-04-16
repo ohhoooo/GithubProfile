@@ -25,6 +25,7 @@ class ViewController: UIViewController {
 
         setDatas()
         setTableView()
+        setRefreshControl()
     }
 
     // MARK: - methods
@@ -67,6 +68,19 @@ class ViewController: UIViewController {
         
         self.tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "ProfileTableViewCell")
         self.tableView.register(UINib(nibName: "RepositoryTableViewCell", bundle: nil), forCellReuseIdentifier: "RepositoryTableViewCell")
+    }
+    
+    private func setRefreshControl() {
+        self.tableView.refreshControl = UIRefreshControl()
+        self.tableView.refreshControl?.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+    }
+    
+    @objc private func refreshTableView() {
+        setDatas()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
+            self?.tableView.refreshControl?.endRefreshing()
+        }
     }
 }
 
